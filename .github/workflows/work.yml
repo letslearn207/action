@@ -21,5 +21,7 @@ jobs:
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
+          errors: true
+          retries: 0
           payload: |
             text: "🚨 Deployment failed in GitHub Actions!"
