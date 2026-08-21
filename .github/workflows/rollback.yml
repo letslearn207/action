@@ -1,0 +1,30 @@
+name: Automatic Rollback Demo
+
+on:
+  push:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy Application
+        id: deployment
+        run: |
+          echo "Deploying version 2.0..."
+          echo "Deployment started..."
+          echo "Deployment failed!"
+          exit 1
+
+      - name: Automatic Rollback
+        if: failure()
+        run: |
+          echo "Deployment failed!"
+          echo "Starting automatic rollback..."
+          echo "Restoring version 1.0..."
+          echo "Rollback completed successfully!"
+
+      - name: Cleanup
+        if: always()
+        run: echo "Cleaning deployment resources..."
