@@ -1,4 +1,4 @@
-name: Slack Alert Demo
+name: Self Healing Deployment
 
 on:
   push:
@@ -9,12 +9,25 @@ jobs:
 
     steps:
 
+      # STEP 1
       - name: Deploy Application
+        id: deployment
         run: |
           echo "Starting deployment..."
+          echo "Deploying version 2.0..."
           echo "Deployment failed!"
           exit 1
 
+      # STEP 2
+      - name: Automatic Rollback
+        if: failure()
+        run: |
+          echo "Deployment failed!"
+          echo "Starting automatic rollback..."
+          echo "Restoring version 1.0..."
+          echo "Rollback completed successfully!"
+
+      # STEP 3
       - name: Send Slack Alert
         if: failure()
         uses: slackapi/slack-github-action@v4
