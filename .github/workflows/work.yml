@@ -1,0 +1,25 @@
+name: Slack Alert Demo
+
+on:
+  push:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy Application
+        run: |
+          echo "Starting deployment..."
+          echo "Deployment failed!"
+          exit 1
+
+      - name: Send Slack Alert
+        if: failure()
+        uses: slackapi/slack-github-action@v4
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "🚨 Deployment failed in GitHub Actions!"
